@@ -1,0 +1,17 @@
+name: Build IPA
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter build ipa --no-codesign
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: AI-IPA
+          path: build/ios/ipa/*.ipa
